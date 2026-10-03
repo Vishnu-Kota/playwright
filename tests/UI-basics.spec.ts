@@ -1,27 +1,32 @@
 import { test, expect } from "@playwright/test";
+import {
+  button,
+  checkbox,
+  loginUrl,
+  password,
+  shopUrl,
+  usernameInput,
+} from "../constants/test-constants";
 
-test("test webpage rahul shetty", async ({ page }) => {
-  await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+test("testing login", async ({ page }) => {
+  await page.goto(loginUrl);
 
-  await page.getByLabel("username").fill("rahulshettyacademy");
+  await page.locator(usernameInput).fill("rahulshettyacademy");
 
-  await page.getByLabel("password").fill("Learning@830$3mK1");
+  await page.locator(password).fill("Learning@830$3mK2");
 
-  await page.getByRole("button").click();
+  await page.locator(checkbox).click();
 
-  await expect(page.locator(".alert-danger")).toBeVisible();
-});
+  await page.locator(button).click();
 
-test("correct creds pass", async ({ page }) => {
-  await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+  await expect(page).toHaveURL(shopUrl);
 
-  await page.getByLabel("username").fill("rahulshettyacademy");
+  await page.pause();
 
-  await page.getByLabel("password").fill("Learning@830$3mK2");
+  const titles = page.locator(".card-title a");
 
-  await page.getByRole("button", { name: "Sign In" }).click();
-
-  await expect(page).toHaveURL(
-    "https://rahulshettyacademy.com/angularpractice/shop",
-  );
+  console.log(await titles.first().textContent()); // first card
+  console.log(await titles.nth(1).textContent()); // second card
+  const all = await titles.allTextContents(); // all four as an array
+  console.log(all);
 });
