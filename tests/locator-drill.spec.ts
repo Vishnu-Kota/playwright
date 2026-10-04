@@ -2,7 +2,7 @@
 //
 // Split across days (re-aligned 4 Oct to the course order):
 //   items 5-6   CSS        -> day 15-16 (section 4 teaches CSS)
-//   items 7-10  XPath      -> day 16 (not in the course; learn it from zero first)
+//   items 7-10  XPath      -> day 21 (not in the course; learn it from zero first)
 //   items 1-4   getBy*     -> day 19 (section 7)
 //
 // Site: https://rahulshettyacademy.com/AutomationPractice/

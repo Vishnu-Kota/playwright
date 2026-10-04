@@ -45,7 +45,7 @@ The preferred one, and why, in two lines:
 > Classes and names can be shared by many elements on the same page, so they need combining with something else to stay unique.
 > If the id is dynamic (e.g. `input-4821`), use CSS on an attribute that does not change, like `name` or `data-testid`.
 
-## Part 3: XPath depth (day 16, not in the course)
+## Part 3: XPath depth (day 21, not in the course)
 
 Absolute vs relative. Write one of each for the same element:
 
