@@ -33,15 +33,17 @@ Order I reach for them in, and why:
 
 | Strategy | Syntax (CSS / XPath / Selenium `By`) | Stable? | Why |
 |---|---|---|---|
-| id | | | |
-| name | | | |
-| class | | | |
-| CSS selector | | | |
+| id | `#username` · Selenium `By.id("username")` | Usually | The id you see when you inspect the element, with `#` in front. Meant to be unique on the page, so it finds one element on its own. Breaks if the id is generated, e.g. `input-4821`. |
+| name | `[name="username"]` · Selenium `By.name("username")` | Usually | The `name` attribute you see when you inspect it. Common on form fields, but not always unique. |
+| class | `.card-title` · Selenium `By.className("card-title")` | No | `.classname`. Classes are for styling, so many elements share them: the Sign In button had three (`btn btn-info btn-md`), and `.btn` matches every button. |
+| CSS selector | `#id` · `.class` · `[attr="value"]` · `tag` · `.card-title a` | Depends on what you build it from | Not a fourth option: it is the language the three above are written in. Combine blocks to narrow down, e.g. `input[type="checkbox"]`. A bare word is a tag name. |
 | XPath | | | |
 
 The preferred one, and why, in two lines:
 
-> 
+> id first, because it is meant to be unique on the page, so one id finds exactly one element.
+> Classes and names can be shared by many elements on the same page, so they need combining with something else to stay unique.
+> If the id is dynamic (e.g. `input-4821`), use CSS on an attribute that does not change, like `name` or `data-testid`.
 
 ## Part 3: XPath depth (day 16, not in the course)
 

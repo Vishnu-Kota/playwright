@@ -21,12 +21,13 @@ test("testing login", async ({ page }) => {
 
   await expect(page).toHaveURL(shopUrl);
 
-  await page.pause();
-
   const titles = page.locator(".card-title a");
 
   console.log(await titles.first().textContent()); // first card
   console.log(await titles.nth(1).textContent()); // second card
   const all = await titles.allTextContents(); // all four as an array
   console.log(all);
+
+  await expect(titles).toHaveCount(4);
+  expect(all).toContain("iphone X");
 });
