@@ -12,9 +12,9 @@ test("user can add a product to the cart and reach checkout", async ({
   const afterLoginUrl =
     "https://rahulshettyacademy.com/client/#/dashboard/dash";
   const cartUrl = "https://rahulshettyacademy.com/client/#/dashboard/cart";
-  const emailId = page.locator("#userEmail");
-  const password = page.locator("#userPassword");
-  const login = page.locator("#login");
+  const emailId = page.getByPlaceholder("email@example.com");
+  const password = page.getByPlaceholder("enter your passsword");
+  const login = page.getByRole("button", { name: "Login" });
   const productName = "ADIDAS ORIGINAL";
   const cart = page.locator(".cart");
 
@@ -24,24 +24,23 @@ test("user can add a product to the cart and reach checkout", async ({
   await emailId.fill("myspam387@gmail.com");
   await password.fill("Pass1234");
   await login.click();
-
   await expect(page).toHaveURL(afterLoginUrl);
-  await card.locator("button", { hasText: "ADD TO CART" }).click();
+  await card.getByRole("button", { name: "Add To Cart" }).click();
+  await expect(page.locator("[routerlink*='cart'] label")).toHaveText("1");
 
   await page.locator("[routerlink*='cart']").click();
   await expect(page).toHaveURL(cartUrl);
   await expect(cart.filter({ hasText: productName })).toBeVisible();
 
-  await cart.locator("button", { hasText: "Buy Now" }).click();
+  await cart.getByRole("button", { name: "Buy Now" }).click();
   await expect(page).toHaveURL(/dashboard\/order/);
 
-  const country = page.locator('[placeholder="Select Country"]');
+  const country = page.getByPlaceholder("Select Country");
 
   await country.pressSequentially("India");
-
-  await expect(country).toHaveValue("India");
   await page.locator(".ta-item").getByText("India", { exact: true }).click();
-  await page.locator("a", { hasText: "Place Order" }).click();
+  await expect(country).toHaveValue("India");
+  await page.getByText("Place Order").click();
   await expect(page).toHaveURL(/dashboard\/thanks/);
   const rawText = await page
     .locator("label")
@@ -49,4 +48,9 @@ test("user can add a product to the cart and reach checkout", async ({
     .textContent();
   const orderId = rawText?.split("|")[1].trim();
   console.log(orderId);
+  await page.locator("button[routerlink*='myorders']").click();
+  await expect(page).toHaveURL(/myorders/);
+  await expect(
+    page.locator("tbody tr").filter({ hasText: orderId! }),
+  ).toBeVisible();
 });
