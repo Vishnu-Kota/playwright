@@ -39,8 +39,33 @@
 
 import { test, expect } from "@playwright/test";
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('https://rahulshettyacademy.com/AutomationPractice/');
+test("open window button", async ({ page }) => {
+  await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
+  const openWindow = page.getByRole("button", { name: "Open Window" });
+  await expect(openWindow).toBeVisible();
 });
 
-// Your ten tests go here.
+test("option 2 checkbox", async ({ page }) => {
+  await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
+  const option2 = page.locator("#checkBoxOption2");
+  await option2.check();
+  await expect(option2).toBeChecked();
+});
+
+test("switch tab example", async ({ page }) => {
+  await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
+  await expect(
+    page.getByText("Switch Tab Example", { exact: false }),
+  ).toBeVisible();
+  await expect(page.getByText("Switch Tab", { exact: false })).toBeVisible();
+});
+
+test("country placeholder", async ({ page }) => {
+  await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
+  const countryBox = page.getByPlaceholder("Type to Select Countries");
+  await countryBox.pressSequentially("Ind");
+  await page
+    .locator(".ui-menu-item")
+    .getByText("India", { exact: true })
+    .click();
+});
