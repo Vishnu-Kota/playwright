@@ -14,7 +14,7 @@ Written from `tests/waits.spec.ts`, day 16 (4 Oct 2026).
 
 - **Expected** is my claim (5). **Received** is reality (4). I read these the wrong way round the first time.
 - It kept trying for 30 s, then failed on the **test** timeout.
-- Config bug: `expect` timeout is 40 s in `playwright.config.ts`, but the test timeout is 30 s, so the assertion can never use its full time. The assertion timeout must be shorter than the test timeout. Fix on day 23 (config).
+- Config bug: `expect` timeout is 40 s in `playwright.config.ts`, but the test timeout is 30 s, so the assertion can never use its full time. The assertion timeout must be shorter than the test timeout. Fixed on 8 Oct: removed the override, so it is back to the 5 s default.
 - Why it did not fail instantly: `expect(locator)` is a **web-first assertion**. It re-checks the page until the condition is true or time runs out.
 
 | | Checks once | Keeps retrying |
@@ -71,6 +71,20 @@ Instead, wait on the data itself: `await expect(page.locator(".result-row").firs
 - **After a click, assert its effect**, not that it happened: checkbox → `toBeChecked()`, dialog → `toBeVisible()`, link → `toHaveURL()`, delete → `toHaveCount(n - 1)`.
 - **Value vs attribute:** `toHaveValue` is what was typed in the box; `toHaveAttribute("type", "password")` is the label in the HTML. The password field gets both, because `type` changing to `text` would show passwords on screen.
 - Pick assertions by asking *what bug would this catch?*, not *what can I check?*
+
+## F. The three timeouts (day 19, `tests/timeouts.spec.ts`)
+
+Each experiment waited for `#nope`, an element that does not exist.
+
+| Timeout | Error first line | Default | Set it with |
+|---|---|---|---|
+| Assertion | `expect(locator).toBeVisible() failed … Timeout: 2000ms` | 5 s | `{ timeout }` on the matcher · `expect.timeout` in config |
+| Action | `TimeoutError: locator.click: Timeout 2000ms exceeded.` | none: limited only by the test timeout | `{ timeout }` on the action · `use.actionTimeout` in config |
+| Test | `Test timeout of 3000ms exceeded.` | 30 s | `test.setTimeout()` · `timeout` in config |
+
+- Read the first line: `expect(...)` means assertion, `TimeoutError: locator.xxx` means action, `Test timeout of` means the whole test ran out.
+- Every "Test timeout of 30000ms exceeded" on a click this week was the test timeout, because actions have no limit of their own.
+- Keep the assertion timeout short. A 5 s failure names the exact check that broke; a long one turns into a vague test timeout.
 
 ## My first attempt, from memory (4 Oct)
 
