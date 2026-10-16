@@ -13,6 +13,7 @@ import { defineConfig, devices } from "@playwright/test";
  */
 export default defineConfig({
   testDir: "./tests",
+  outputDir: "artifacts",
 
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -30,8 +31,11 @@ export default defineConfig({
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: "on-first-retry",
+    trace: "retain-on-failure",
     browserName: "chromium",
+    screenshot: "only-on-failure",
+    video: "retain-on-failure",
+    defaultBrowserType: "chromium",
   },
 
   /* Configure projects for major browsers */

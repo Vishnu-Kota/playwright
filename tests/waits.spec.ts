@@ -8,7 +8,7 @@ import {
   usernameInput,
 } from "../constants/test-constants";
 
-test("titles without waiting", async ({ page }) => {
+test("flaky: titles without any wait", async ({ page }) => {
   await page.goto(loginUrl);
 
   await page.locator(usernameInput).fill("rahulshettyacademy");
@@ -18,10 +18,11 @@ test("titles without waiting", async ({ page }) => {
   await page.locator(button).click();
 
   const titles = page.locator(".card-title a");
-  await titles.first().waitFor();
+  await expect(titles).toHaveCount(4);
+  // await titles.first().waitFor();
   const all = await titles.allTextContents();
   console.log(all);
-  await expect(titles).toHaveCount(4);
+  expect(all.length).toBe(4);
 });
 
 test("login form fields behave", async ({ page }) => {
