@@ -42,19 +42,27 @@ export default defineConfig({
   projects: [
     { name: "setup", testMatch: /.*\.setup\.ts/ },
     {
+      name: "api",
+      testMatch: /api\/.*\.spec\.ts/,
+      use: { baseURL: "https://api.eventhub.rahulshettyacademy.com/api/" },
+    },
+    {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
       dependencies: ["setup"],
+      testIgnore: /api\//,
     },
     {
       name: "firefox",
       use: { ...devices["Desktop Firefox"] },
       dependencies: ["setup"],
+      testIgnore: /api\//,
     },
     {
       name: "webkit",
       use: { ...devices["Desktop Safari"] },
       dependencies: ["setup"],
+      testIgnore: /api\//,
     },
   ],
 
