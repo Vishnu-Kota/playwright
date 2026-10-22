@@ -15,10 +15,9 @@ jobs:
         node-version: lts/*
     - name: Install dependencies
       run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
+    # API tests only until the CI work on Day 43; UI tests still run locally
+    - name: Run API tests
+      run: npx playwright test --project=api
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
