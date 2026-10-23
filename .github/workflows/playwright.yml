@@ -18,6 +18,9 @@ jobs:
     # API tests only until the CI work on Day 43; UI tests still run locally
     - name: Run API tests
       run: npx playwright test --project=api
+      env:
+        EVENTHUB_EMAIL: ${{ secrets.EVENTHUB_EMAIL }}
+        EVENTHUB_PASSWORD: ${{ secrets.EVENTHUB_PASSWORD }}
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:

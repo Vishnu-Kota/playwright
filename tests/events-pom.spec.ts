@@ -1,5 +1,5 @@
 import { test, expect } from "../fixtures";
-import user from "../test-data/eventhub-user.json";
+import { user } from "../test-data/user";
 
 test("create event, book it, seat count drops by 1", async ({
   loggedInPage,

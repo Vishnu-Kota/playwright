@@ -1,5 +1,5 @@
 import { test as base, expect, APIRequestContext } from "@playwright/test";
-import user from "./test-data/eventhub-user.json";
+import { user } from "./test-data/user";
 
 export const test = base.extend<{
   token: string;

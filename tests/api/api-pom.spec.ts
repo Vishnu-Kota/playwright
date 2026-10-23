@@ -1,5 +1,5 @@
 import { test, expect } from "../../api-fixtures";
-import user from "../../test-data/eventhub-user.json";
+import { user } from "../../test-data/user";
 
 test.describe("EventHub API", () => {
   test("login returns a token", async ({ token }) => {
