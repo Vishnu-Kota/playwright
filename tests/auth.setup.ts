@@ -1,6 +1,6 @@
 import { test as setup, expect } from "@playwright/test";
 import { LoginPage } from "../pages/LoginPage";
-import user from "../test-data/eventhub-user.json";
+import { user } from "../test-data/user";
 
 setup("log in once and save it", async ({ page }) => {
   const loginPage = new LoginPage(page);
