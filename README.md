@@ -69,11 +69,13 @@ The tests run against the live public EventHub practice site, so they need an in
 
 ## Roadmap
 
-**Phase 1 check (31 Oct 2026): passed.** UI and API automation run green, the Postman collection runs with Newman in CI, and a UI test checks an event seeded through the API. Still to do: network mocking.
+**Phase 1 check (31 Oct 2026): passed.** UI and API automation run green, the Postman collection runs with Newman in CI, and a UI test checks an event seeded through the API. Network mocking followed on 1 Nov.
 
 - [x] Page objects, fixtures, storageState auth setup
 - [x] API tests with the request fixture, and a chained CRUD test with cleanup
-- [ ] Network interception and mocking
+- [x] Network interception and mocking: the events API mocked to a 500 (error state) and slowed down (page still loads)
+- [x] Postman collection run with Newman in GitHub Actions
+- [x] UI test that checks data seeded through the API
 - [ ] Framework structure: base pages, test-data factories, multi-environment config
 - [ ] GitHub Actions: sharded parallel runs, Allure reports, failure artifacts on CI
 - [ ] Database checks (SQL) alongside API tests
