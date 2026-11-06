@@ -1,10 +1,10 @@
 import { Page, Locator } from "@playwright/test";
+import { BasePage } from "./BasePage";
 
-export class EventsPage {
-  readonly page: Page;
+export class EventsPage extends BasePage {
   readonly card: Locator;
   constructor(page: Page) {
-    this.page = page;
+    super(page);
     this.card = page.getByTestId("event-card");
   }
   cardFor(title: string) {
@@ -12,7 +12,7 @@ export class EventsPage {
   }
 
   async goTo() {
-    await this.page.goto("https://eventhub.rahulshettyacademy.com/events");
+    await this.open("/events");
   }
 
   async getSeats(title: string) {
