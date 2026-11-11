@@ -1,4 +1,4 @@
-import { test, expect } from "../../api-fixtures";
+import { test, expect } from "../../fixtures/api-fixtures";
 
 let eventId: number | undefined;
 

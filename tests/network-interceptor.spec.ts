@@ -1,4 +1,4 @@
-import { test, expect } from "../fixtures";
+import { test, expect } from "../fixtures/fixtures";
 
 test("events page shows an error when the events API fails", async ({
   page,

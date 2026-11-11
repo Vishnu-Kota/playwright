@@ -1,4 +1,4 @@
-import { test } from "../fixtures";
+import { test } from "../fixtures/fixtures";
 
 test.beforeAll(async () => {
   console.log("beforeAll");

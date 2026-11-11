@@ -1,5 +1,5 @@
 import { test as base, expect, APIRequestContext } from "@playwright/test";
-import { user } from "./test-data/user";
+import { user } from "../test-data/user";
 
 const API_URL = "https://api.eventhub.rahulshettyacademy.com/api/";
 
