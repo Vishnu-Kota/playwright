@@ -5,7 +5,8 @@ let eventId: number | undefined;
 
 test.afterEach(async ({ authRequest }) => {
   if (eventId) {
-    await authRequest.delete(`events/${eventId}`);
+    const res = await authRequest.delete(`events/${eventId}`);
+    expect(res.ok()).toBeTruthy();
     eventId = undefined;
   }
 });

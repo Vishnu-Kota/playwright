@@ -4,7 +4,6 @@ import {
   checkbox,
   loginUrl,
   password,
-  shopUrl,
   usernameInput,
 } from "../constants/test-constants";
 
@@ -22,7 +21,7 @@ test("flaky: titles without any wait", async ({ page }) => {
   // await titles.first().waitFor();
   const all = await titles.allTextContents();
   console.log(all);
-  expect(all.length).toBe(4);
+  expect(all).toHaveLength(4);
 });
 
 test("login form fields behave", async ({ page }) => {

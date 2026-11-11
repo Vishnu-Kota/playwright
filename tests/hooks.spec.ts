@@ -16,10 +16,10 @@ test.afterAll(async () => {
   console.log("afterAll");
 });
 
-test("test A", async ({ workerLog }) => {
+test("first test shows hook order", async () => {
   console.log("test A");
 });
 
-test("test B", async ({ workerLog }) => {
+test("second test shows hook order", async () => {
   console.log("test B");
 });
