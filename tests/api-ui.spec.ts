@@ -2,16 +2,16 @@ import { test, expect } from "../fixtures/fixtures";
 
 let eventId: number | undefined;
 
-test.afterEach(async ({ authRequest }) => {
+test.afterEach(async ({ api }) => {
   if (eventId) {
-    await authRequest.delete(`events/${eventId}`);
+    await api.delete(`events/${eventId}`);
 
     eventId = undefined;
   }
 });
 
 test("event created through the api shows on the events page", async ({
-  authRequest,
+  api,
   eventsPage,
 }) => {
   const title = `API seeding ${Date.now()}`;
@@ -24,7 +24,7 @@ test("event created through the api shows on the events page", async ({
     price: 100,
     totalSeats: 50,
   };
-  const response = await authRequest.post("events", { data: event });
+  const response = await api.post("events", { data: event });
   expect(response.status()).toBe(201);
   const body = await response.json();
   eventId = body.data.id;

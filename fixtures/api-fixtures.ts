@@ -5,7 +5,7 @@ const API_URL = "https://api.eventhub.rahulshettyacademy.com/api/";
 
 export const test = base.extend<{
   token: string;
-  authRequest: APIRequestContext;
+  api: APIRequestContext;
 }>({
   token: async ({ request }, use) => {
     const response = await request.post(`${API_URL}auth/login`, {
@@ -16,7 +16,7 @@ export const test = base.extend<{
     await use(body.token);
   },
 
-  authRequest: async ({ playwright, token }, use) => {
+  api: async ({ playwright, token }, use) => {
     const context = await playwright.request.newContext({
       baseURL: API_URL,
       extraHTTPHeaders: { Authorization: `Bearer ${token}` },
