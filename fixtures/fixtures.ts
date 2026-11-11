@@ -52,7 +52,7 @@ export const test = base.extend<
     const id = body.data.id;
     await use({ id, title: newEvent.title, totalSeats: newEvent.totalSeats });
 
-    const res = await api.delete(`events/${id}`); // ← use #2: delete THIS event
+    const res = await api.delete(`events/${id}`);
     expect(res.ok()).toBeTruthy();
   },
   storageState: async ({}, use) => {
