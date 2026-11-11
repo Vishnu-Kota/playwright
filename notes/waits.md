@@ -17,11 +17,11 @@ Written from `tests/waits.spec.ts`, day 16 (4 Oct 2026).
 - Config bug: `expect` timeout is 40 s in `playwright.config.ts`, but the test timeout is 30 s, so the assertion can never use its full time. The assertion timeout must be shorter than the test timeout. Fixed on 8 Oct: removed the override, so it is back to the 5 s default.
 - Why it did not fail instantly: `expect(locator)` is a **web-first assertion**. It re-checks the page until the condition is true or time runs out.
 
-| | Checks once | Keeps retrying |
-|---|---|---|
-| `allTextContents()`, `count()` | ✅ | |
-| `expect(locator).toHaveCount()`, `.toBeVisible()`, `.toHaveText()` | | ✅ |
-| `locator.click()`, `.fill()`, `.waitFor()`, `.first().textContent()` | | ✅ |
+|                                                                      | Checks once | Keeps retrying |
+| -------------------------------------------------------------------- | ----------- | -------------- |
+| `allTextContents()`, `count()`                                       | ✅          |                |
+| `expect(locator).toHaveCount()`, `.toBeVisible()`, `.toHaveText()`   |             | ✅             |
+| `locator.click()`, `.fill()`, `.waitFor()`, `.first().textContent()` |             | ✅             |
 
 So `await expect(titles).toHaveCount(4)` would have fixed A on its own. **A web-first assertion is a wait.**
 
@@ -44,20 +44,20 @@ Visible and receives events are separate: a button behind a cookie banner is sti
 
 Selenium has no auto-waiting, so it offers three waits:
 
-| Wait | What it is |
-|---|---|
-| **Implicit** | One global setting on the driver: every element *lookup* keeps trying for **up to** N seconds, and stops early once found. Only checks that the element exists, not that it is clickable. |
-| **Explicit** (`WebDriverWait`) | Wait until **a specific condition** is true for **a specific element**, with a maximum time. "Until Sign In is clickable, max 10 s." The key word is *condition*, not time. |
-| **Fluent** | An explicit wait you can tune: you also choose **how often to check** (polling interval) and **which errors to ignore** while waiting. Rarely needed. |
+| Wait                           | What it is                                                                                                                                                                                |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Implicit**                   | One global setting on the driver: every element _lookup_ keeps trying for **up to** N seconds, and stops early once found. Only checks that the element exists, not that it is clickable. |
+| **Explicit** (`WebDriverWait`) | Wait until **a specific condition** is true for **a specific element**, with a maximum time. "Until Sign In is clickable, max 10 s." The key word is _condition_, not time.               |
+| **Fluent**                     | An explicit wait you can tune: you also choose **how often to check** (polling interval) and **which errors to ignore** while waiting. Rarely needed.                                     |
 
 Mapping to Playwright: explicit ≈ `locator.waitFor()` / `expect(locator).toBeVisible()`; auto-waiting ≈ an explicit wait for actionability built into every action; no implicit wait.
 
-**Why `waitForTimeout()` / `Thread.sleep()` is always wrong.** It is a *pause*, not a wait: it waits for nothing and never fails. `3000` is 3 seconds — Playwright times are milliseconds.
+**Why `waitForTimeout()` / `Thread.sleep()` is always wrong.** It is a _pause_, not a wait: it waits for nothing and never fails. `3000` is 3 seconds — Playwright times are milliseconds.
 
-| The API takes… | With a 3 s pause |
-|---|---|
-| 5 s (slow day) | The pause ends, the data is not there, the test fails though the feature works: flaky. |
-| 0.5 s (fast day) | The test idles until 3 s: 2.5 s wasted, every run. |
+| The API takes…   | With a 3 s pause                                                                       |
+| ---------------- | -------------------------------------------------------------------------------------- |
+| 5 s (slow day)   | The pause ends, the data is not there, the test fails though the feature works: flaky. |
+| 0.5 s (fast day) | The test idles until 3 s: 2.5 s wasted, every run.                                     |
 
 Instead, wait on the data itself: `await expect(page.locator(".result-row").first()).toBeVisible();`
 
@@ -70,17 +70,17 @@ Instead, wait on the data itself: `await expect(page.locator(".result-row").firs
 - **An error message that appears 3 s after a wrong login:** `await expect(alert).toBeVisible()` — it retries until the message shows. If it can be slower than the default 5 s, raise the timeout for that one check: `toBeVisible({ timeout: 10_000 })`.
 - **After a click, assert its effect**, not that it happened: checkbox → `toBeChecked()`, dialog → `toBeVisible()`, link → `toHaveURL()`, delete → `toHaveCount(n - 1)`.
 - **Value vs attribute:** `toHaveValue` is what was typed in the box; `toHaveAttribute("type", "password")` is the label in the HTML. The password field gets both, because `type` changing to `text` would show passwords on screen.
-- Pick assertions by asking *what bug would this catch?*, not *what can I check?*
+- Pick assertions by asking _what bug would this catch?_, not _what can I check?_
 
 ## F. The three timeouts (day 19, `tests/timeouts.spec.ts`)
 
 Each experiment waited for `#nope`, an element that does not exist.
 
-| Timeout | Error first line | Default | Set it with |
-|---|---|---|---|
-| Assertion | `expect(locator).toBeVisible() failed … Timeout: 2000ms` | 5 s | `{ timeout }` on the matcher · `expect.timeout` in config |
-| Action | `TimeoutError: locator.click: Timeout 2000ms exceeded.` | none: limited only by the test timeout | `{ timeout }` on the action · `use.actionTimeout` in config |
-| Test | `Test timeout of 3000ms exceeded.` | 30 s | `test.setTimeout()` · `timeout` in config |
+| Timeout   | Error first line                                         | Default                                | Set it with                                                 |
+| --------- | -------------------------------------------------------- | -------------------------------------- | ----------------------------------------------------------- |
+| Assertion | `expect(locator).toBeVisible() failed … Timeout: 2000ms` | 5 s                                    | `{ timeout }` on the matcher · `expect.timeout` in config   |
+| Action    | `TimeoutError: locator.click: Timeout 2000ms exceeded.`  | none: limited only by the test timeout | `{ timeout }` on the action · `use.actionTimeout` in config |
+| Test      | `Test timeout of 3000ms exceeded.`                       | 30 s                                   | `test.setTimeout()` · `timeout` in config                   |
 
 - Read the first line: `expect(...)` means assertion, `TimeoutError: locator.xxx` means action, `Test timeout of` means the whole test ran out.
 - Every "Test timeout of 30000ms exceeded" on a click this week was the test timeout, because actions have no limit of their own.

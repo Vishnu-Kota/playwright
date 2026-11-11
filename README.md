@@ -24,15 +24,15 @@ This is my working SDET portfolio. I add to it as I build out the framework; see
 
 ## How it's built
 
-| Piece | What it does |
-|---|---|
-| **Page objects** (`pages/`) | `LoginPage`, `BookingPage`, `EventsPage`, `AdminEventsPage`. Locators live in one place; tests read like user steps. |
-| **UI fixtures** (`fixtures.ts`) | Hand each test ready-made page objects and a logged-in page, so tests don't construct them. |
-| **Auth setup project** (`tests/auth.setup.ts`) | Logs in once and saves `storageState`. Browser projects depend on it and start already logged in. |
-| **API fixtures** (`api-fixtures.ts`) | `token` logs in through the API; `authRequest` is a request context that sends the Bearer token on every call and is disposed afterwards. |
-| **Separate `api` project** (`playwright.config.ts`) | API specs run in their own project with no setup dependency, so they never launch a browser. Browser projects ignore `tests/api/`. |
-| **Failure artifacts** | Screenshot, video and trace are kept **only for failing tests**, in `artifacts/`. |
-| **Test data** (`test-data/`) | The test user is read from JSON, not hard-coded in tests. |
+| Piece                                               | What it does                                                                                                                              |
+| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| **Page objects** (`pages/`)                         | `LoginPage`, `BookingPage`, `EventsPage`, `AdminEventsPage`. Locators live in one place; tests read like user steps.                      |
+| **UI fixtures** (`fixtures.ts`)                     | Hand each test ready-made page objects and a logged-in page, so tests don't construct them.                                               |
+| **Auth setup project** (`tests/auth.setup.ts`)      | Logs in once and saves `storageState`. Browser projects depend on it and start already logged in.                                         |
+| **API fixtures** (`api-fixtures.ts`)                | `token` logs in through the API; `authRequest` is a request context that sends the Bearer token on every call and is disposed afterwards. |
+| **Separate `api` project** (`playwright.config.ts`) | API specs run in their own project with no setup dependency, so they never launch a browser. Browser projects ignore `tests/api/`.        |
+| **Failure artifacts**                               | Screenshot, video and trace are kept **only for failing tests**, in `artifacts/`.                                                         |
+| **Test data** (`test-data/`)                        | The test user is read from JSON, not hard-coded in tests.                                                                                 |
 
 ```
 pages/          page objects
