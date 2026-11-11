@@ -17,16 +17,16 @@ test.describe("EventHub API", () => {
     expect(body.error).toBe("Invalid email or password");
   });
 
-  test("me returns my email", async ({ authRequest }) => {
-    const response = await authRequest.get("auth/me");
+  test("me returns my email", async ({ api }) => {
+    const response = await api.get("auth/me");
 
     expect(response.status()).toBe(200);
     const body = await response.json();
     expect(body.user.email).toBe(user.email);
   });
 
-  test("events list is not empty", async ({ authRequest }) => {
-    const response = await authRequest.get("events");
+  test("events list is not empty", async ({ api }) => {
+    const response = await api.get("events");
 
     expect(response.status()).toBe(200);
     const body = await response.json();

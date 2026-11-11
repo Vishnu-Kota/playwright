@@ -2,14 +2,14 @@ import { test, expect } from "../../fixtures/api-fixtures";
 
 let eventId: number | undefined;
 
-test.afterEach(async ({ authRequest }) => {
+test.afterEach(async ({ api }) => {
   if (eventId) {
-    await authRequest.delete(`events/${eventId}`);
+    await api.delete(`events/${eventId}`);
     eventId = undefined;
   }
 });
 
-test("create, read, update & delete an event", async ({ authRequest }) => {
+test("create, read, update & delete an event", async ({ api }) => {
   const event = {
     title: `API test ${Date.now()}`,
     category: "Conference",
@@ -21,7 +21,7 @@ test("create, read, update & delete an event", async ({ authRequest }) => {
   };
 
   await test.step("create", async () => {
-    const response = await authRequest.post("events", { data: event });
+    const response = await api.post("events", { data: event });
 
     expect(response.status()).toBe(201);
     const body = await response.json();
@@ -30,7 +30,7 @@ test("create, read, update & delete an event", async ({ authRequest }) => {
   });
 
   await test.step("read", async () => {
-    const response = await authRequest.get(`events/${eventId}`);
+    const response = await api.get(`events/${eventId}`);
 
     expect(response.status()).toBe(200);
     const body = await response.json();
@@ -39,22 +39,22 @@ test("create, read, update & delete an event", async ({ authRequest }) => {
 
   await test.step("update", async () => {
     const newTitle = `${event.title} updated`;
-    const response = await authRequest.put(`events/${eventId}`, {
+    const response = await api.put(`events/${eventId}`, {
       data: { ...event, title: newTitle },
     });
 
     expect(response.status()).toBe(200);
 
-    const check = await authRequest.get(`events/${eventId}`);
+    const check = await api.get(`events/${eventId}`);
     const body = await check.json();
     expect(body.data.title).toBe(newTitle);
   });
 
   await test.step("delete", async () => {
-    const response = await authRequest.delete(`events/${eventId}`);
+    const response = await api.delete(`events/${eventId}`);
     expect(response.status()).toBe(200);
 
-    const check = await authRequest.get(`events/${eventId}`);
+    const check = await api.get(`events/${eventId}`);
     expect(check.status()).toBe(404);
 
     eventId = undefined;
