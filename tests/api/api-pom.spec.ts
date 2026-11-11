@@ -1,4 +1,4 @@
-import { test, expect } from "../../api-fixtures";
+import { test, expect } from "../../fixtures/api-fixtures";
 import { user } from "../../test-data/user";
 
 test.describe("EventHub API", () => {

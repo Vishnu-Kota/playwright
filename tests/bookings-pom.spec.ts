@@ -1,4 +1,4 @@
-import { test, expect } from "../fixtures";
+import { test, expect } from "../fixtures/fixtures";
 import { user } from "../test-data/user";
 
 test("booking test", async ({ page, bookingPage, loginPage }) => {

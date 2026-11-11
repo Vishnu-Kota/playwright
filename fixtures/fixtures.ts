@@ -1,9 +1,9 @@
 import { expect, Page } from "@playwright/test";
 import { test as base } from "./api-fixtures";
-import { LoginPage } from "./pages/LoginPage";
-import { BookingPage } from "./pages/BookingPage";
-import { EventsPage } from "./pages/EventsPage";
-import { AdminEventsPage } from "./pages/AdminEventsPage";
+import { LoginPage } from "../pages/LoginPage";
+import { BookingPage } from "../pages/BookingPage";
+import { EventsPage } from "../pages/EventsPage";
+import { AdminEventsPage } from "../pages/AdminEventsPage";
 
 export const test = base.extend<
   {
