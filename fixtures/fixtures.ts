@@ -4,6 +4,7 @@ import { LoginPage } from "../pages/LoginPage";
 import { BookingPage } from "../pages/BookingPage";
 import { EventsPage } from "../pages/EventsPage";
 import { AdminEventsPage } from "../pages/AdminEventsPage";
+import { makeEvent } from "../test-data/factories";
 
 export const test = base.extend<
   {
@@ -35,15 +36,7 @@ export const test = base.extend<
   },
 
   event: async ({ api }, use) => {
-    const newEvent = {
-      title: `Test Event ${Date.now()}`,
-      category: "Conference",
-      venue: "Test Venue",
-      city: "Bangalore",
-      eventDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-      price: 100,
-      totalSeats: 50,
-    };
+    const newEvent = makeEvent();
 
     const response = await api.post("events", { data: newEvent });
     expect(response.status()).toBe(201);
