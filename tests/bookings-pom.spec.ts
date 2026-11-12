@@ -6,7 +6,7 @@ test("booking test", async ({ page, bookingPage, loginPage }) => {
   await loginPage.login(user.email, user.password);
   await expect(page.getByRole("button", { name: "Logout" })).toBeVisible();
 
-  await page.goto("https://eventhub.rahulshettyacademy.com/events");
+  await page.goto("/events");
   await page
     .getByTestId("event-card")
     .first()

@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "playwright test",
+    "test:dev": "cross-env TEST_ENV=dev playwright test",
+    "test:staging": "cross-env TEST_ENV=staging playwright test",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
@@ -16,6 +19,7 @@
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.63.0",
     "@types/node": "^26.6.4",
+    "cross-env": "^10.1.0",
     "dotenv": "^18.0.9",
     "eslint": "^10.14.0",
     "eslint-config-prettier": "^10.1.8",

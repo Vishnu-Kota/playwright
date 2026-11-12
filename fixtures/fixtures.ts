@@ -24,7 +24,7 @@ export const test = base.extend<
     await use(new BookingPage(page));
   },
   authedPage: async ({ page }: { page: Page }, use) => {
-    await page.goto("https://eventhub.rahulshettyacademy.com/");
+    await page.goto("/");
     await expect(page.getByRole("button", { name: "Logout" })).toBeVisible();
     await use(page);
   },

@@ -1,5 +1,5 @@
 import { test, expect, Page } from "@playwright/test";
-
+import { user } from "../test-data/user";
 const BASE_URL = "https://eventhub.rahulshettyacademy.com";
 
 async function loginAndGoToBooking(page: Page) {
@@ -8,8 +8,8 @@ async function loginAndGoToBooking(page: Page) {
   const loginBtn = page.locator("#login-btn");
 
   await page.goto(`${BASE_URL}/login`);
-  await email.fill("test@dummy.com");
-  await password.fill("Pass@1234");
+  await email.fill(user.email);
+  await password.fill(user.password);
   await loginBtn.click();
 
   await expect(
@@ -34,7 +34,7 @@ async function bookFirstEventAndCheckRefund(page: Page, tickets: number) {
   await expect(page.locator("#ticket-count")).toHaveText(String(tickets));
 
   await page.getByLabel("Full Name").fill("my name");
-  await page.locator("#customer-email").fill("test@dummy.com");
+  await page.locator("#customer-email").fill(user.email);
   await page.getByPlaceholder("+91 98765 43210").fill("98757867667");
   await page.locator(".confirm-booking-btn").click();
 
