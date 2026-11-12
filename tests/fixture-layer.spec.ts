@@ -1,6 +1,6 @@
 import { test, expect } from "../fixtures/fixtures";
 
-test("test the first layer from the API shows on the event page", async ({
+test("the first event from the API shows on the event page", async ({
   api,
   authedPage,
 }) => {
