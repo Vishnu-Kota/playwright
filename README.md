@@ -1,5 +1,7 @@
 # Playwright + TypeScript test suite: EventHub
 
+![Playwright Tests](https://github.com/Vishnu-Kota/playwright/actions/workflows/playwright.yml/badge.svg)
+
 UI and API tests for **EventHub**, an event-booking web app (`eventhub.rahulshettyacademy.com`) with a REST API behind it. The suite is written in **Playwright + TypeScript** and covers browser journeys (log in, create an event, book it, check refunds) and the API underneath them, using page objects, custom fixtures and a log-in-once auth setup.
 
 This is my working SDET portfolio. I add to it as I build out the framework; see [Roadmap](#roadmap).
