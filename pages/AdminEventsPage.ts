@@ -24,9 +24,7 @@ export class AdminEventsPage {
   }
 
   async goTo() {
-    await this.page.goto(
-      "https://eventhub.rahulshettyacademy.com/admin/events",
-    );
+    await this.page.goto("/admin/events");
   }
 
   async createEvent(title: string) {

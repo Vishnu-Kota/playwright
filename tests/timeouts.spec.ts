@@ -5,14 +5,21 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("1. assertion timeout", async ({ page }) => {
+  test.fail();
   await expect(page.locator("#nope")).toBeVisible({ timeout: 2000 });
 });
 
 test("2. action timeout", async ({ page }) => {
+  test.fail();
   await page.locator("#nope").click({ timeout: 2000 });
 });
 
 test("3. test timeout", async ({ page }) => {
+  test.fixme(
+    true,
+    "demonstrates a test-level timeout; cannot be caught by test.fail()",
+  );
+  test.fail();
   test.setTimeout(3000);
   await page.locator("#nope").click();
 });

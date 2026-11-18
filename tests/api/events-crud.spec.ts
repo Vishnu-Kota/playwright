@@ -1,4 +1,5 @@
 import { test, expect } from "../../fixtures/api-fixtures";
+import { makeEvent } from "../../test-data/factories";
 
 let eventId: number | undefined;
 
@@ -10,15 +11,7 @@ test.afterEach(async ({ api }) => {
 });
 
 test("create, read, update & delete an event", async ({ api }) => {
-  const event = {
-    title: `API test ${Date.now()}`,
-    category: "Conference",
-    venue: "Test Venue",
-    city: "Bangalore",
-    eventDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-    price: 100,
-    totalSeats: 50,
-  };
+  const event = makeEvent();
 
   await test.step("create", async () => {
     const response = await api.post("events", { data: event });

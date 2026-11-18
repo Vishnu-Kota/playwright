@@ -1,4 +1,5 @@
 import { test, expect } from "../fixtures/fixtures";
+import { makeEvent } from "../test-data/factories";
 
 let eventId: number | undefined;
 
@@ -14,22 +15,13 @@ test("event created through the api shows on the events page", async ({
   api,
   eventsPage,
 }) => {
-  const title = `API seeding ${Date.now()}`;
-  const event = {
-    title,
-    category: "Conference",
-    venue: "Test Venue",
-    city: "Bangalore",
-    eventDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-    price: 100,
-    totalSeats: 50,
-  };
+  const event = makeEvent();
   const response = await api.post("events", { data: event });
   expect(response.status()).toBe(201);
   const body = await response.json();
   eventId = body.data.id;
 
   await eventsPage.goTo();
-  await expect(eventsPage.cardFor(title)).toBeVisible();
-  expect(await eventsPage.getSeats(title)).toBe(event.totalSeats);
+  await expect(eventsPage.cardFor(event.title)).toBeVisible();
+  expect(await eventsPage.getSeats(event.title)).toBe(event.totalSeats);
 });
