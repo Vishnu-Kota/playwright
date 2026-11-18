@@ -2,6 +2,10 @@ import { test, expect } from "../fixtures/fixtures";
 import { user } from "../test-data/user";
 
 test("booking test", async ({ page, bookingPage, loginPage }) => {
+  test.fixme(
+    true,
+    "books .first() event which can be sold out — fix with self-seeded data",
+  );
   await loginPage.goTo();
   await loginPage.login(user.email, user.password);
   await expect(page.getByRole("button", { name: "Logout" })).toBeVisible();

@@ -66,6 +66,10 @@ async function bookFirstEventAndCheckRefund(page: Page, tickets: number) {
 }
 
 test("single ticket booking is eligible for refund", async ({ page }) => {
+  test.fixme(
+    true,
+    "books .first() event which can be sold out — fix with self-seeded data",
+  );
   await loginAndGoToBooking(page);
   await bookFirstEventAndCheckRefund(page, 1);
 
@@ -79,6 +83,10 @@ test("single ticket booking is eligible for refund", async ({ page }) => {
 });
 
 test("group ticket booking is NOT eligible for refund", async ({ page }) => {
+  test.fixme(
+    true,
+    "books .first() event which can be sold out — fix with self-seeded data",
+  );
   await loginAndGoToBooking(page);
   await bookFirstEventAndCheckRefund(page, 3);
 

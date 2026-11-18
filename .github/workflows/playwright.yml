@@ -15,8 +15,15 @@ jobs:
           node-version: lts/*
       - name: Install dependencies
         run: npm ci
-      - name: Run API tests
-        run: npx playwright test --project=api
+      - name: Cache Playwright browsers           
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('package-lock.json') }}
+      - name: Install Playwright browser         
+        run: npx playwright install --with-deps chromium
+      - name: Run tests                        
+        run: npx playwright test --project=api --project=chromium
         env:
           EVENTHUB_EMAIL: ${{ secrets.EVENTHUB_EMAIL }}
           EVENTHUB_PASSWORD: ${{ secrets.EVENTHUB_PASSWORD }}
