@@ -1,4 +1,5 @@
-import { test, expect, Page } from "@playwright/test";
+import { test, expect } from "../fixtures/fixtures";
+import type { Page } from "@playwright/test";
 import { user } from "../test-data/user";
 const BASE_URL = "https://eventhub.rahulshettyacademy.com";
 
@@ -18,12 +19,16 @@ async function loginAndGoToBooking(page: Page) {
 }
 
 // Steps 2–5, shared by both tests. tickets = 1 clicks "+" zero times, tickets = 3 clicks it twice.
-async function bookFirstEventAndCheckRefund(page: Page, tickets: number) {
+async function bookFirstEventAndCheckRefund(
+  page: Page,
+  tickets: number,
+  event: { title: string },
+) {
   // Step 2: book the first event
   await page.goto(`${BASE_URL}/events`);
   await page
     .getByTestId("event-card")
-    .first()
+    .filter({ hasText: event.title })
     .getByTestId("book-now-btn")
     .click();
 
@@ -65,13 +70,12 @@ async function bookFirstEventAndCheckRefund(page: Page, tickets: number) {
   await expect(spinner).toBeHidden({ timeout: 6000 });
 }
 
-test("single ticket booking is eligible for refund", async ({ page }) => {
-  test.fixme(
-    true,
-    "books .first() event which can be sold out — fix with self-seeded data",
-  );
+test("single ticket booking is eligible for refund", async ({
+  page,
+  event,
+}) => {
   await loginAndGoToBooking(page);
-  await bookFirstEventAndCheckRefund(page, 1);
+  await bookFirstEventAndCheckRefund(page, 1, event);
 
   // Step 6
   const result = page.locator("#refund-result");
@@ -82,13 +86,12 @@ test("single ticket booking is eligible for refund", async ({ page }) => {
   );
 });
 
-test("group ticket booking is NOT eligible for refund", async ({ page }) => {
-  test.fixme(
-    true,
-    "books .first() event which can be sold out — fix with self-seeded data",
-  );
+test("group ticket booking is NOT eligible for refund", async ({
+  page,
+  event,
+}) => {
   await loginAndGoToBooking(page);
-  await bookFirstEventAndCheckRefund(page, 3);
+  await bookFirstEventAndCheckRefund(page, 3, event);
 
   // Step 6
   const result = page.locator("#refund-result");

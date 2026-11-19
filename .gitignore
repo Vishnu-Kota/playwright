@@ -6,6 +6,8 @@ node_modules/
 /playwright/.cache/
 /playwright/.auth/
 /artifacts/
+allure-results/
+allure-report/
 
 # Local secrets
 .env
